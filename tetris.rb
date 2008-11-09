@@ -40,10 +40,10 @@ queue = Rubygame::EventQueue.new
 clock = Clock.new { |c| c.target_framerate = 30 }
 
 until game_over do
-  
-	shape = Shape.new(BLACK) if shape.stuck?
-	
-	queue.each do |e|
+
+  shape = Shape.new(BLACK) if shape.stuck?
+
+  queue.each do |e|
     if   (e.kind_of?(KeyDownEvent) and  e.key == K_Q) or e.kind_of?(QuitEvent)
       game_over = true
     elsif e.kind_of?(KeyDownEvent) and  e.key == K_ESCAPE

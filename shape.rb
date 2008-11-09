@@ -4,7 +4,7 @@ class Shape
   @@grid = nil
 
   attr_accessor :fall_fast
-  
+
   def load_shapes
     @@SHAPES = []
     open(FILE_SHAPES) do |file|
@@ -37,29 +37,29 @@ class Shape
   end
 
   def draw_grid(screen)
-  	for i in 0..ROWS-1
-  		for j in 0..COLS-1
-  			if @@grid[i][j]
-  				_draw_block(screen, i,j, @@grid[i][j])
-				end
-			end
-		end		
+    for i in 0..ROWS-1
+      for j in 0..COLS-1
+        if @@grid[i][j]
+          _draw_block(screen, i,j, @@grid[i][j])
+        end
+      end
+    end
   end
 
-	def compute_time_next_fall
-		@time_next_fall = Clock.runtime + (@fall_fast ? 0 : @delay_ms)
-	end
-		
+  def compute_time_next_fall
+    @time_next_fall = Clock.runtime + (@fall_fast ? 0 : @delay_ms)
+  end
+
 
   def hits?
     for i in 0 .. SHAPE_NUM_ROWS-1
       for j in 0 .. SHAPE_NUM_COLS-1
-      	if @shape[i][j] then
-      		return true if (@row+i < ROWS) and (@col+j<COLS) and (@@grid[@row+i][@col+j])
-      		return true if (@row+i >= ROWS) # hits on bottom
-      		return true if (@col+j <0) or (@col+j>=COLS)
-    		end
-    	end
+        if @shape[i][j] then
+          return true if (@row+i < ROWS) and (@col+j<COLS) and (@@grid[@row+i][@col+j])
+          return true if (@row+i >= ROWS) # hits on bottom
+          return true if (@col+j <0) or (@col+j>=COLS)
+        end
+      end
     end
     return false
   end
@@ -74,7 +74,7 @@ class Shape
     @col = COLS / 2
     @color = color
     @delay_ms = delay_ms
-		@fall_fast = false
+    @fall_fast = false
     @stuck = false # is piece stuck
     @game_over = false
     compute_time_next_fall
@@ -95,16 +95,16 @@ class Shape
       @row += 1
       compute_time_next_fall
       if hits? then
-        @row -=1 # move back up 
+        @row -=1 # move back up
         @stuck = true # set 'done' flag
         for i in (0 .. SHAPE_NUM_ROWS-1)
-      		for j in (0 .. SHAPE_NUM_COLS-1)
-        		if @shape[i][j] then
-          		@@grid[@row+i][@col+j] = @color
-							if @row+i <= 0 then 
-								@game_over = true
-							end
-          	end  
+          for j in (0 .. SHAPE_NUM_COLS-1)
+            if @shape[i][j] then
+              @@grid[@row+i][@col+j] = @color
+              if @row+i <= 0 then
+                @game_over = true
+              end
+            end
           end
         end
       end
@@ -139,13 +139,13 @@ class Shape
     color)
   end
 
-	def stuck? 
-		@stuck
-	end
+  def stuck?
+    @stuck
+  end
 
-	def game_over?
-		@game_over
-	end
+  def game_over?
+    @game_over
+  end
 
 end
 
