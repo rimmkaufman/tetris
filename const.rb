@@ -22,6 +22,8 @@ BLACK = [0,0,0]
 BROWN = [125,75,20]
 LIGHTGRAY = [220,220,220]
 
+COLORS_SHAPES = ['FF66CC', '990066','990099', 'CC66CC', '330066'].map {|s| [s[0..1].to_i(16), s[2..3].to_i(16), s[4..5].to_i(16)   ]}
+
 COLOR_BACKGROUND = WHITE
 COLOR_BOX = BROWN
 

@@ -22,13 +22,15 @@ background.blit(screen, [0, 0]) # clear screen
 draw_screen_border(screen)
 screen.update
 
-shape = Shape.new(BLACK)
+shape = Shape.new
 shape.draw(screen)
 
 nav = {	K_RIGHT => {:state => false, :action => lambda { shape.right}, :repeat=>true},
   K_LEFT=> {:state => false, :action => lambda { shape.left}, :repeat => true},
   K_2 => {:state => false, :action => lambda { shape.rotate_right}, :repeat=>false},
-K_1 => {:state => false, :action => lambda { shape.rotate_left}, :repeat=>false}}
+  K_1 => {:state => false, :action => lambda { shape.rotate_left}, :repeat=>false},
+  K_DOWN => {:state => false, :action => lambda { shape.down}, :repeat=>true},
+}
 
 game_over = false
 game_paused = false
@@ -41,7 +43,7 @@ clock = Clock.new { |c| c.target_framerate = 30 }
 
 until game_over do
 
-  shape = Shape.new(BLACK) if shape.stuck?
+  shape = Shape.new if shape.stuck?
 
   queue.each do |e|
     if   (e.kind_of?(KeyDownEvent) and  e.key == K_Q) or e.kind_of?(QuitEvent)

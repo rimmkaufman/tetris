@@ -50,7 +50,6 @@ class Shape
     @time_next_fall = Clock.runtime + (@fall_fast ? 0 : @delay_ms)
   end
 
-
   def hits?
     for i in 0 .. SHAPE_NUM_ROWS-1
       for j in 0 .. SHAPE_NUM_COLS-1
@@ -64,15 +63,15 @@ class Shape
     return false
   end
 
-
-
-  def initialize(color, delay_ms = 500)
+  def initialize(delay_ms = 500)
     load_shapes unless @@SHAPES
     initialize_grid unless @@grid
-    @shape = @@SHAPES.random_element
+    flavor = rand(@@SHAPES.length)
+    p flavor
+    @shape = @@SHAPES[flavor]
+    @color = COLORS_SHAPES[flavor]
     @row = 0
     @col = COLS / 2
-    @color = color
     @delay_ms = delay_ms
     @fall_fast = false
     @stuck = false # is piece stuck
@@ -92,18 +91,22 @@ class Shape
 
   def fall
     if Clock.runtime > @time_next_fall then
-      @row += 1
+      down
       compute_time_next_fall
-      if hits? then
-        @row -=1 # move back up
-        @stuck = true # set 'done' flag
-        for i in (0 .. SHAPE_NUM_ROWS-1)
-          for j in (0 .. SHAPE_NUM_COLS-1)
-            if @shape[i][j] then
-              @@grid[@row+i][@col+j] = @color
-              if @row+i <= 0 then
-                @game_over = true
-              end
+    end
+  end
+
+  def down
+    @row += 1
+    if hits? then
+      @row -=1 # move back up
+      @stuck = true # set 'done' flag
+      for i in (0 .. SHAPE_NUM_ROWS-1)
+        for j in (0 .. SHAPE_NUM_COLS-1)
+          if @shape[i][j] then
+            @@grid[@row+i][@col+j] = @color
+            if @row+i <= 0 then
+              @game_over = true
             end
           end
         end
