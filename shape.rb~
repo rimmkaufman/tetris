@@ -127,15 +127,15 @@ class Shape
   end
 
   def right
-    return if Clock.runtime < @time_next_move
-    compute_time_next_move
+  	return if Clock.runtime < @time_next_move 
+  	compute_time_next_move
     @col += 1
     if hits? then @col -= 1; end
   end
 
   def left
-    return if Clock.runtime < @time_next_move
-    compute_time_next_move
+  	return if Clock.runtime < @time_next_move 
+  	compute_time_next_move
     @col -= 1
     if hits? then @col +=1; end
   end
@@ -169,11 +169,11 @@ class Shape
   def compute_rows_needing_evaporation
     @@rows_needing_evaporation = []
     for i in 0 .. ROWS-1
-      evaporate = true
+    	evaporate = true
       for j in 0 .. COLS-1
         if !@@grid[i][j] then
-          evaporate = false
-          break
+        	evaporate = false
+        	break
         end
       end
       @@rows_needing_evaporation.unshift(i) if evaporate
@@ -191,6 +191,6 @@ class Shape
   end
 
 
-end
+  end
 
 
