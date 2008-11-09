@@ -3,8 +3,6 @@ class Shape
   @@SHAPES = nil
   @@grid = nil
 
-	attr_accessor :delay_ms
-
   def load_shapes
     @@SHAPES = []
     open(FILE_SHAPES) do |file|
@@ -52,7 +50,7 @@ class Shape
   def out_of_bounds_on_left_or_right?
     for i in 0 .. SHAPE_NUM_ROWS-1
       for j in 0 .. SHAPE_NUM_COLS-1
-          return true if @shape[i][j] and ((@col+j >= COLS) or (@col+j<0))
+        return true if (@col+j >= COLS) or (@col+j<0)
       end
     end
     return false
@@ -85,43 +83,46 @@ class Shape
     if Clock.runtime > @time_next_fall then
       down
       @time_next_fall = Clock.runtime + @delay_ms
-      if hits? or @row == 0 then
-        exit
+      if hits? or @row = 0 then 
+      	exit
+    	end
       end
     end
-  end
 
-  def right
-    @col += 1
-    if out_of_bounds_on_left_or_right? then @col -= 1; end
-  end
+    def fall_fast
+    end
 
-  def left
-    @col -= 1
-    if out_of_bounds_on_left_or_right? then @col +=1; end
-  end
+    def right
+      @col += 1
+      if out_of_bounds_on_left_or_right? then @col -= 1; end
+    end
 
-  def down
-    @row += 1
-  end
+    def left
+      @col -= 1
+      if out_of_bounds_on_left_or_right? then @col +=1; end
+    end
 
-  # origin at top upper left
-  def draw(screen)
-    for i in (0 .. SHAPE_NUM_ROWS-1)
-      for j in (0 .. SHAPE_NUM_COLS-1)
-        if @shape[i][j] then
-          _draw_block(screen, @row+i, @col+j, @color )
+    def down
+      @row += 1
+    end
+
+    # origin at top upper left
+    def draw(screen)
+      for i in (0 .. SHAPE_NUM_ROWS-1)
+        for j in (0 .. SHAPE_NUM_COLS-1)
+          if @shape[i][j] then
+            _draw_block(screen, @row+i, @col+j, @color )
+          end
         end
       end
     end
-  end
 
-  # origin at top upper left
-  def _draw_block(screen, row, col, color)
-    screen.draw_box_s([MARGIN_LEFT + col*BLOCK_WIDTH, MARGIN_TOP + row*BLOCK_HEIGHT],
-    [MARGIN_LEFT - 1 + (col+1)*BLOCK_WIDTH, MARGIN_TOP - 1 +(row+1)*BLOCK_HEIGHT],
-    color)
+    # origin at top upper left
+    def _draw_block(screen, row, col, color)
+      screen.draw_box_s([MARGIN_LEFT + col*BLOCK_WIDTH, MARGIN_TOP + row*BLOCK_HEIGHT],
+      [MARGIN_LEFT - 1 + (col+1)*BLOCK_WIDTH, MARGIN_TOP - 1 +(row+1)*BLOCK_HEIGHT],
+      color)
+    end
   end
-end
 
 
