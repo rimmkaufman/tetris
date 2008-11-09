@@ -16,7 +16,7 @@ Rake::TestTask.new("test_units") { |t|
 
 desc 'push to github'
 task 'git' do
-	system('git push origin master')
+  system('git push origin master')
 end
 
 html_dir = 'doc/html'

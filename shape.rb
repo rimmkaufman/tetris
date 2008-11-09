@@ -1,6 +1,7 @@
 class Shape
 
   @@SHAPES = nil
+  @@grid = nil
 
   def load_shapes
     @@SHAPES = []
@@ -23,16 +24,50 @@ class Shape
     end
   end
 
+  def initialize_grid
+    @@grid = Hash.new
+    for	i in 0 .. ROWS-1
+      @@grid[i] = Hash.new
+      for j in 0..COLS-1
+        @@grid[i][j] = false
+      end
+    end
+  end
+
+  def draw_grid(screen)
+  end
+
+
   def initialize(color)
     load_shapes unless @@SHAPES
+    initialize_grid unless @@grid
     @shape = @@SHAPES.random_element
     @row = 0
     @col = COLS / 2
     @color = color
   end
 
-  def fall
+  def rotate_left
+    @shape = @shape.rotate_left
+  end
+
+  def rotate_right
+    @shape = @shape.rotate_right
+  end
+
+  def down
     @row += 1
+  end
+
+  def fall
+  end
+
+  def right
+    @col += 1
+  end
+
+  def left
+    @col -= 1
   end
 
   # origin at top upper left
