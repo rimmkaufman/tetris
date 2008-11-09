@@ -40,13 +40,16 @@ queue = Rubygame::EventQueue.new
 clock = Clock.new { |c| c.target_framerate = 30 }
 
 until game_over do
-  queue.each do |e|
+  
+	shape = Shape.new(BLACK) if shape.stuck?
+	
+	queue.each do |e|
     if   (e.kind_of?(KeyDownEvent) and  e.key == K_Q) or e.kind_of?(QuitEvent)
       game_over = true
     elsif e.kind_of?(KeyDownEvent) and  e.key == K_ESCAPE
       game_paused = !game_paused
     elsif e.kind_of?(KeyDownEvent) and e.key == K_SPACE
-      shape.delay_ms = 0
+      shape.fall_fast = !shape.fall_fast
     elsif e.kind_of?(KeyDownEvent) and nav.has_key?(e.key) then
       nav[e.key][:state] = true
     elsif e.kind_of?(KeyUpEvent) and nav.has_key?(e.key) then
@@ -63,6 +66,7 @@ until game_over do
   background.blit(screen, [0, 0]) # clear screen
   draw_screen_border(screen)
   shape.fall
+  if shape.game_over? then game_over = true; end
   shape.draw(screen)
   shape.draw_grid(screen)
   screen.update
