@@ -3,6 +3,7 @@ require 'const'
 require 'border'
 require 'core'
 require 'shape'
+require 'misc'
 require 'pp'
 
 include Rubygame
@@ -27,8 +28,7 @@ nav = {	K_RIGHT => {:state => false, :action => :right, :repeat=>true},
   K_DOWN => {:state => false, :action => :down, :repeat=>true},
 }
 
-game_over = false
-game_paused = false
+
 
 while true do
 
@@ -36,15 +36,21 @@ while true do
 
   queue = Rubygame::EventQueue.new
   clock = Clock.new { |c| c.target_framerate = 30 }
+  game_over = false
+
+  shape = Shape.new
+  shape.initialize_grid
 
   until game_over do
-    shape = Shape.new if !shape or shape.stuck?
+    shape = Shape.new if shape.stuck?
     queue.each do |e|
       if   (e.kind_of?(KeyDownEvent) and  e.key == K_Q) or e.kind_of?(QuitEvent)
         Rubygame.quit
         exit
-      elsif e.kind_of?(KeyDownEvent) and  e.key == K_ESCAPE
-        game_paused = !game_paused
+      elsif (e.kind_of?(KeyDownEvent) and  e.key == K_N) then
+        game_over = true
+      elsif e.kind_of?(KeyDownEvent) and  e.key == K_ESCAPE then
+        pause_game
       elsif e.kind_of?(KeyDownEvent) and e.key == K_SPACE
         shape.fall_fast = !shape.fall_fast
       elsif e.kind_of?(KeyDownEvent) and nav.has_key?(e.key) then
@@ -66,5 +72,4 @@ while true do
     shape.draw_grid(screen)
     screen.update
   end
-
 end

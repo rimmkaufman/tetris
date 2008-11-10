@@ -47,7 +47,7 @@ def intro_screen(screen)
         Rubygame.quit
         exit
       elsif e.kind_of?(KeyDownEvent) and e.key == K_S
-        continue_intro=false
+        return
       end
     end
     background = Rubygame::Surface.new(screen.size)
@@ -61,7 +61,7 @@ def intro_screen(screen)
       'right arrow|right',
       'down arrow|down',
       'space|drop',
-      '1|counter-clockwise',
+      '1|counterclockwise',
       '2|clockwise',
       'n|new game',
       'c|cheat',
