@@ -72,7 +72,6 @@ class Shape
     load_shapes unless @@SHAPES
     initialize_grid unless @@grid
     flavor = rand(@@SHAPES.length)
-    p flavor
     @shape = @@SHAPES[flavor]
     @color = COLORS_SHAPES[flavor]
     @row = 0
