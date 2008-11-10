@@ -14,6 +14,10 @@ Rake::TestTask.new("test_units") { |t|
   t.warning = true
 }
 
+desc "Open e-editor on all ruby files"
+task "edit" do
+  system("e " + FileList['*.rb'].join(" ") )
+end
 
 html_dir = 'doc/html'
 library = '.b'
