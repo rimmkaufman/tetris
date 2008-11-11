@@ -180,12 +180,18 @@ class Shape
   end
 
   def evaporate_rows
+    num_rows_evaporated = 0
     @@rows_needing_evaporation.each do |r|
-      (r-1).downto(0) do |i|
+      adjusted_r = r + num_rows_evaporated
+      adjusted_r.downto(1) do |i|
         for j in 0 .. COLS-1
-          @@grid[i+1][j] = @@grid[i][j]
+          @@grid[i][j] = @@grid[i-1][j]
         end
       end
+      for j in 0 .. COLS-1
+        @@grid[0][j] = false
+      end
+      num_rows_evaporated += 1
     end
   end
 
